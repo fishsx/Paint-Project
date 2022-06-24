@@ -41,6 +41,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import eg.edu.alexu.csd.oop.draw.Shape;
+import eg.edu.alexu.csd.oop.draw.cs62_67.model.Json;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.MyDrawingEngine;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.ShapeFactory;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Circle;
@@ -49,11 +50,8 @@ import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.LineSegment;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Rectangle;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Square;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Triangle;
-import eg.edu.alexu.csd.oop.draw.cs62_67.view.GUI;
-import eg.edu.alexu.csd.oop.draw.cs62_67.view.ShapeCreationBtn;
-import eg.edu.alexu.csd.oop.draw.cs62_67.view.ShapeCreationButtonsPanel;
-import eg.edu.alexu.csd.oop.draw.cs62_67.view.ShapeNameList;
-import eg.edu.alexu.csd.oop.draw.cs62_67.view.ShapePropertiesPanel;
+import eg.edu.alexu.csd.oop.draw.cs62_67.view.*;
+import jdk.nashorn.internal.parser.JSONParser;
 
 public class MainController {
 
@@ -111,6 +109,7 @@ public class MainController {
 		this.Paint.addRedoListener(new RedoListener());
 		this.Paint.addDeleteListener(new DeleteListener());
 		this.Paint.saveJsonListener(new jsonSaveListener());
+		this.Paint.viewJsonListener(new jsonViewListener());
 		this.Paint.saveXmlListener(new xmlSaveListener());
 		this.Paint.loadListener(new loadListener());
 		this.Paint.colorListener(new colorLestener());
@@ -868,6 +867,17 @@ public class MainController {
 			}
 		}
 
+	}
+
+	class jsonViewListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+//			System.out.println("call JsonViewListener");
+			Shape[] shapes = engine.getShapes();
+
+			new JsonPreview("haha");
+		}
 	}
 
 	class loadListener implements ActionListener {

@@ -50,6 +50,7 @@ public class GUI extends JFrame {
 	private final JMenu mnSave = new JMenu("Save");
 	private final JMenuItem mntmSaveXml = new JMenuItem("Save as XML");
 	private final JMenuItem mntmSaveJson = new JMenuItem("Save as JSON");
+	private final JMenuItem mntmViewJson = new JMenuItem("Preview as JSON");
 
 	private final JMenu mnPlugins = new JMenu("Plugins");
 	private final JMenuItem mntmAddPlugin = new JMenuItem("Add Plugin..");
@@ -485,6 +486,8 @@ public class GUI extends JFrame {
 
 		mnSave.add(mntmSaveJson);
 
+		mnSave.add(mntmViewJson);
+
 		mnFile.add(mntmExit);
 
 		menuBar.add(mnEdit);
@@ -538,6 +541,10 @@ public class GUI extends JFrame {
 
 	public void saveJsonListener(ActionListener listenforSaveJson) {
 		mntmSaveJson.addActionListener(listenforSaveJson);
+	}
+
+	public void viewJsonListener(ActionListener listener) {
+		mntmViewJson.addActionListener(listener);
 	}
 
 	public void loadListener(ActionListener listenforLoad) {
