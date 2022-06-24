@@ -23,7 +23,9 @@ import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
@@ -40,6 +42,11 @@ import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.DoubleNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import eg.edu.alexu.csd.oop.draw.Shape;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.Json;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.MyDrawingEngine;
@@ -873,10 +880,46 @@ public class MainController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			System.out.println("call JsonViewListener");
 			Shape[] shapes = engine.getShapes();
+			ObjectMapper mapper = new ObjectMapper();
 
-			new JsonPreview("haha");
+			ArrayNode rootArray = mapper.createArrayNode();
+			for (Shape shape : shapes) {
+				ObjectNode rootNode = mapper.createObjectNode();
+				double pointX = shape.getPosition().getX();
+				double pointY = shape.getPosition().getY();
+				Double xAxis = shape.getProperties().get("xAxis");
+				Double yAxis = shape.getProperties().get("yAxis");
+				double maxPointX = 0.0;
+				double maxPointY = 0.0;
+
+				if (Objects.nonNull(xAxis)) {
+					maxPointX = pointX + xAxis;
+				}
+				if (Objects.nonNull(yAxis)) {
+					maxPointY = pointY + yAxis;
+				}
+
+				List<DoubleNode> locationPoints = new ArrayList<>(4);
+				locationPoints.add(new DoubleNode(pointX));
+				locationPoints.add(new DoubleNode(pointY));
+				locationPoints.add(new DoubleNode(maxPointX));
+				locationPoints.add(new DoubleNode(maxPointY));
+
+				rootNode.put("socre", 0.9)
+						.put("rate", 0.15)
+						.put("label", "xxx")
+						.putArray("location").addAll(locationPoints);
+
+
+				rootArray.add(rootNode);
+			}
+
+			try {
+				new JsonPreview(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootArray));
+			} catch (JsonProcessingException jsonProcessingException) {
+				jsonProcessingException.printStackTrace();
+			}
 		}
 	}
 
