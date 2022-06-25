@@ -747,6 +747,7 @@ public class MainController {
 						namesList.updateShapeNameList(engine.getShapes());
 						shapePropertiesPanel.addPositionSetterButtonListener(new positionSetterButtonListner());
 						shapePropertiesPanel.addPropSetterButtonListeners(new probSetterButtonListner());
+						shapePropertiesPanel.addLabelSetterButtonListener(new nonPositionPropSetterButtonListener());
 						// namesList.addListSelectionListener( this );
 					}
 				}
@@ -908,7 +909,7 @@ public class MainController {
 
 				rootNode.put("socre", 0.9)
 						.put("rate", 0.15)
-						.put("label", "xxx")
+						.put("label", shape.getLabel())
 						.putArray("location").addAll(locationPoints);
 
 
@@ -1063,6 +1064,38 @@ public class MainController {
 		}
 
 	}
+
+	/**
+	 * 非position位置的属性变更 listener
+	 */
+	public class nonPositionPropSetterButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (selectedShape != null) {
+				JButton source = (JButton) e.getSource();
+				String propKey = source.getName();
+
+				try {
+					updatedShape = (Shape) selectedShape.clone();
+
+					//TODO multi prop refactor
+					updatedShape.setLabel(shapePropertiesPanel.getTextFieldValue(propKey));
+				} catch (CloneNotSupportedException e1) {
+					e1.printStackTrace();
+				}
+				engine.updateShape(selectedShape, updatedShape);
+				selectedShape = updatedShape;
+				shapePropertiesPanel.updateShapePropertiesPanel(selectedShape);
+				namesList.updateShapeNameList(engine.getShapes());
+				shapePropertiesPanel.addLabelSetterButtonListener(new nonPositionPropSetterButtonListener());
+//				shapePropertiesPanel.addPositionSetterButtonListener(new positionSetterButtonListner());
+//				shapePropertiesPanel.addPropSetterButtonListeners(new probSetterButtonListner());
+				surface.repaint();
+			}
+		}
+	}
+
 
 	public class positionSetterButtonListner implements ActionListener {
 

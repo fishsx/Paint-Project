@@ -17,7 +17,7 @@ public abstract class MyShape implements Shape, Cloneable{
 	private String name;
 	private Color color = Color.black;
 	private Color fillColor = color.white;
-	
+	private String label = "default";
 	@Override
 	//common
 	public void setPosition(Point position) {
@@ -81,4 +81,13 @@ public abstract class MyShape implements Shape, Cloneable{
 			
     }
 
+	@Override
+	public String getLabel() {
+		return this.label;
+	}
+
+	@Override
+	public void setLabel(String label) {
+		this.label = label;
+	}
 }

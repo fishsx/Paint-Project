@@ -21,6 +21,7 @@ public class ShapePropertiesPanel extends JPanel {
 	private ArrayList<JButton> SettersButtonsList = new ArrayList();
 	private JButton nameButton;
 	private JButton position;
+	private JButton labelButton;
 
 	public ShapePropertiesPanel() {
 		super();
@@ -46,6 +47,20 @@ public class ShapePropertiesPanel extends JPanel {
 		type.add(typeLabel);
 		type.add(typeName);
 		this.add(type);
+
+		JLabel labelLabel = new JLabel("label :");
+		JTextField labelNameField = new JTextField(shape.getLabel());
+		labelNameField.setName("labelName");
+		labelLabel.setLabelFor(labelNameField);
+		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		labelButton = new JButton("set");
+		labelButton.setName("labelName");
+		labelPanel.setBackground(new Color(245, 246, 247));
+		labelPanel.add(labelLabel);
+		labelPanel.add(labelNameField);
+		labelPanel.add(labelButton);
+		textFields.add(labelNameField);
+		this.add(labelPanel);
 
 		JLabel positionLable = new JLabel("position ");
 		JLabel positionXLable = new JLabel("x :");
@@ -92,6 +107,9 @@ public class ShapePropertiesPanel extends JPanel {
 
 	public void addPositionSetterButtonListener(ActionListener listener) {
 		this.position.addActionListener(listener);
+	}
+	public void addLabelSetterButtonListener(ActionListener listener) {
+		this.labelButton.addActionListener(listener);
 	}
 
 	public void addPropSetterButtonListeners(ActionListener listener) {

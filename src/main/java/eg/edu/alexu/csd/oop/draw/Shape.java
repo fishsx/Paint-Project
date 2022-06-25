@@ -33,4 +33,9 @@ public interface Shape {
     
     /* create a deep clone of the shape */
     public Object clone() throws CloneNotSupportedException;
+
+    /*  label for this shape */
+    String getLabel();
+
+    void setLabel(String label);
 }
