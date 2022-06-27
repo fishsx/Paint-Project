@@ -894,11 +894,11 @@ public class MainController {
 				double maxPointX = 0.0;
 				double maxPointY = 0.0;
 
-				if (Objects.nonNull(xAxis)) {
-					maxPointX = pointX + xAxis;
-				}
 				if (Objects.nonNull(yAxis)) {
-					maxPointY = pointY + yAxis;
+					maxPointX = pointX + yAxis;
+				}
+				if (Objects.nonNull(xAxis)) {
+					maxPointY = pointY + xAxis;
 				}
 
 				List<DoubleNode> locationPoints = new ArrayList<>(4);
