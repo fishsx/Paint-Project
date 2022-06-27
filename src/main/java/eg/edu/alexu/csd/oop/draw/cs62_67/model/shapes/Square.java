@@ -18,6 +18,7 @@ public class Square extends Rectangle{
         clonedShape.setColor(this.getColor());
         clonedShape.setFillColor(this.getFillColor());
         clonedShape.setPosition(this.getPosition());
+        clonedShape.setLabel(this.getLabel());
         Map<String, Double> newprop = new HashMap<String,Double>();
         for (Map.Entry s: this.getProperties().entrySet()){
             String key = (String) s.getKey(); 

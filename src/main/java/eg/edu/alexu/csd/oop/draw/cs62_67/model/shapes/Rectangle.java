@@ -57,7 +57,8 @@ public class Rectangle extends MyShape {
         clonedShape.setColor(this.getColor());
         clonedShape.setFillColor(this.getFillColor());
         clonedShape.setPosition(this.getPosition());
-        Map<String, Double> newprop = new HashMap<String,Double>();
+		clonedShape.setLabel(this.getLabel());
+		Map<String, Double> newprop = new HashMap<String,Double>();
         for (Map.Entry s: this.properties.entrySet()){
             String key = (String) s.getKey(); 
             Double value = (Double) s.getValue();
