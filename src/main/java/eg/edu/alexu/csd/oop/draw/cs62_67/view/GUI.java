@@ -48,9 +48,11 @@ public class GUI extends JFrame {
 	public final JLabel mouseXlbl = new JLabel("X: ");
 	public final JLabel mouseYlbl = new JLabel("Y: ");
 	private final JMenu mnSave = new JMenu("Save");
+	private final JMenu mnExt = new JMenu("Ext");
 	private final JMenuItem mntmSaveXml = new JMenuItem("Save as XML");
 	private final JMenuItem mntmSaveJson = new JMenuItem("Save as JSON");
 	private final JMenuItem mntmViewJson = new JMenuItem("Preview as JSON");
+	private final JMenuItem mntmLoadViewJson = new JMenuItem("Load from JSON");
 
 	private final JMenu mnPlugins = new JMenu("Plugins");
 	private final JMenuItem mntmAddPlugin = new JMenuItem("Add Plugin..");
@@ -482,11 +484,15 @@ public class GUI extends JFrame {
 
 		mnFile.add(mnSave);
 
+		mnFile.add(mnExt);
+
 		mnSave.add(mntmSaveXml);
 
 		mnSave.add(mntmSaveJson);
 
-		mnSave.add(mntmViewJson);
+		mnExt.add(mntmViewJson);
+
+		mnExt.add(mntmLoadViewJson);
 
 		mnFile.add(mntmExit);
 
@@ -545,6 +551,10 @@ public class GUI extends JFrame {
 
 	public void viewJsonListener(ActionListener listener) {
 		mntmViewJson.addActionListener(listener);
+	}
+
+	public void loadViewJsonListener(ActionListener listener) {
+		mntmLoadViewJson.addActionListener(listener);
 	}
 
 	public void loadListener(ActionListener listenforLoad) {

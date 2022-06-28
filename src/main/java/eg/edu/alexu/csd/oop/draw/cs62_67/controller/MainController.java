@@ -1,19 +1,7 @@
 package eg.edu.alexu.csd.oop.draw.cs62_67.controller;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,17 +18,10 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.JTextComponent;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +29,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import eg.edu.alexu.csd.oop.draw.Shape;
-import eg.edu.alexu.csd.oop.draw.cs62_67.model.Json;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.MyDrawingEngine;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.ShapeFactory;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Circle;
@@ -58,7 +38,6 @@ import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Rectangle;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Square;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Triangle;
 import eg.edu.alexu.csd.oop.draw.cs62_67.view.*;
-import jdk.nashorn.internal.parser.JSONParser;
 
 public class MainController {
 
@@ -117,6 +96,7 @@ public class MainController {
 		this.Paint.addDeleteListener(new DeleteListener());
 		this.Paint.saveJsonListener(new jsonSaveListener());
 		this.Paint.viewJsonListener(new jsonViewListener());
+		this.Paint.loadViewJsonListener(new showLoadViewJsonListener());
 		this.Paint.saveXmlListener(new xmlSaveListener());
 		this.Paint.loadListener(new loadListener());
 		this.Paint.colorListener(new colorLestener());
@@ -875,6 +855,77 @@ public class MainController {
 			}
 		}
 
+	}
+
+	class showLoadViewJsonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFrame frame = new JFrame();
+			frame.setResizable(false);
+			frame.setTitle("load preview json");
+			frame.setSize(500, 400);
+			frame.setBackground(new Color(245, 246, 247));
+			JTextArea textArea = new JTextArea();
+			JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+			JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			btnPanel.setLayout(new FlowLayout());
+			JScrollPane scrollPane = new JScrollPane(textArea);
+			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+
+
+			JButton loadBtn = new JButton("Load");
+			loadBtn.addActionListener(new loadViewJsonButtonClickListener(textArea,frame));
+			loadBtn.setActionCommand("Load");
+
+			JButton cancelBtn = new JButton("Cancel");
+			cancelBtn.addActionListener(new loadViewJsonButtonClickListener(textArea,frame));
+			cancelBtn.setActionCommand("Cancel");
+
+
+			btnPanel.add(loadBtn);
+			btnPanel.add(cancelBtn);
+			panel.add(scrollPane);
+			panel.add(btnPanel);
+
+			frame.getContentPane().add(panel, BorderLayout.CENTER);
+			frame.setLocation(300, 100);
+			frame.setResizable(true);
+			frame.setVisible(true);
+
+
+		}
+	}
+
+	class loadViewJsonButtonClickListener implements ActionListener {
+
+		public JFrame frame;
+
+		public JTextComponent textComponent;
+
+		private ObjectMapper om = new ObjectMapper();
+
+		public loadViewJsonButtonClickListener(JTextComponent textComponent, JFrame frame) {
+			this.textComponent = textComponent;
+			this.frame = frame;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String actionCommand = e.getActionCommand();
+			if (actionCommand.equals("Load")) {
+				String jsonText = textComponent.getText();
+
+
+				//close frame window
+				frame.dispose();
+			} else {
+				//
+			}
+		}
 	}
 
 	class jsonViewListener implements ActionListener {
