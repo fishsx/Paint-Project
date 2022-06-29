@@ -31,7 +31,7 @@ public class MyDrawingEngine implements DrawingEngine{
 	public void refresh(Graphics canvas) {
 		Shape[] shapes = getShapes();
 		for (Shape i : shapes) {
-			 i.draw(canvas);
+			i.draw(canvas);
 		}
 	}
 
@@ -160,7 +160,17 @@ public class MyDrawingEngine implements DrawingEngine{
 		}
 
 	}
-	
+
+	//load all as Rectangle
+	public void loadPreviewJson(String json){
+		this.shapes.clear();
+		this.undoActions.clear();
+		this.redoActions.clear();
+		PreviewJson previewJson = new PreviewJson(json);
+		this.shapes = previewJson.parse();
+
+	}
+
 	public void addPlugin(Class<? extends Shape> newClass){
 		this.supportedShapes.add(newClass);
 	}

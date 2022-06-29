@@ -10,15 +10,14 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.JTextComponent;
@@ -30,6 +29,7 @@ import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import eg.edu.alexu.csd.oop.draw.Shape;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.MyDrawingEngine;
+import eg.edu.alexu.csd.oop.draw.cs62_67.model.PreviewJson;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.ShapeFactory;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Circle;
 import eg.edu.alexu.csd.oop.draw.cs62_67.model.shapes.Ellipse;
@@ -321,49 +321,49 @@ public class MainController {
 					int outcode = getOutcode(p);
 					java.awt.Rectangle r = highlightRect;
 					switch (outcode) {
-					case java.awt.Rectangle.OUT_TOP:
-						if (Math.abs(p.y - r.y) < PROX_DIST) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
-						}
-						break;
-					case java.awt.Rectangle.OUT_TOP + java.awt.Rectangle.OUT_LEFT:
-						if (Math.abs(p.y - r.y) < PROX_DIST && Math.abs(p.x - r.x) < PROX_DIST) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-						}
-						break;
-					case java.awt.Rectangle.OUT_LEFT:
-						if (Math.abs(p.x - r.x) < PROX_DIST) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
-						}
-						break;
-					case java.awt.Rectangle.OUT_LEFT + java.awt.Rectangle.OUT_BOTTOM:
-						if (Math.abs(p.x - r.x) < PROX_DIST && Math.abs(p.y - (r.y + r.height)) < PROX_DIST) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
-						}
-						break;
-					case java.awt.Rectangle.OUT_BOTTOM:
-						if (Math.abs(p.y - (r.y + r.height)) < PROX_DIST) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
-						}
-						break;
-					case java.awt.Rectangle.OUT_BOTTOM + java.awt.Rectangle.OUT_RIGHT:
-						if (Math.abs(p.x - (r.x + r.width)) < PROX_DIST
-								&& Math.abs(p.y - (r.y + r.height)) < PROX_DIST) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-						}
-						break;
-					case java.awt.Rectangle.OUT_RIGHT:
-						if (Math.abs(p.x - (r.x + r.width)) < PROX_DIST) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
-						}
-						break;
-					case java.awt.Rectangle.OUT_RIGHT + java.awt.Rectangle.OUT_TOP:
-						if (Math.abs(p.x - (r.x + r.width)) < PROX_DIST && Math.abs(p.y - r.y) < PROX_DIST) {
-							setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-						}
-						break;
-					default: // center
-						setCursor(Cursor.getDefaultCursor());
+						case java.awt.Rectangle.OUT_TOP:
+							if (Math.abs(p.y - r.y) < PROX_DIST) {
+								setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
+							}
+							break;
+						case java.awt.Rectangle.OUT_TOP + java.awt.Rectangle.OUT_LEFT:
+							if (Math.abs(p.y - r.y) < PROX_DIST && Math.abs(p.x - r.x) < PROX_DIST) {
+								setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
+							}
+							break;
+						case java.awt.Rectangle.OUT_LEFT:
+							if (Math.abs(p.x - r.x) < PROX_DIST) {
+								setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
+							}
+							break;
+						case java.awt.Rectangle.OUT_LEFT + java.awt.Rectangle.OUT_BOTTOM:
+							if (Math.abs(p.x - r.x) < PROX_DIST && Math.abs(p.y - (r.y + r.height)) < PROX_DIST) {
+								setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
+							}
+							break;
+						case java.awt.Rectangle.OUT_BOTTOM:
+							if (Math.abs(p.y - (r.y + r.height)) < PROX_DIST) {
+								setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
+							}
+							break;
+						case java.awt.Rectangle.OUT_BOTTOM + java.awt.Rectangle.OUT_RIGHT:
+							if (Math.abs(p.x - (r.x + r.width)) < PROX_DIST
+									&& Math.abs(p.y - (r.y + r.height)) < PROX_DIST) {
+								setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
+							}
+							break;
+						case java.awt.Rectangle.OUT_RIGHT:
+							if (Math.abs(p.x - (r.x + r.width)) < PROX_DIST) {
+								setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+							}
+							break;
+						case java.awt.Rectangle.OUT_RIGHT + java.awt.Rectangle.OUT_TOP:
+							if (Math.abs(p.x - (r.x + r.width)) < PROX_DIST && Math.abs(p.y - r.y) < PROX_DIST) {
+								setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
+							}
+							break;
+						default: // center
+							setCursor(Cursor.getDefaultCursor());
 					}
 				}
 			};
@@ -606,49 +606,49 @@ public class MainController {
 				Double dx = p.x - x;
 				Double dy = p.y - y;
 				switch (type) {
-				case Cursor.N_RESIZE_CURSOR:
-					shape.setPosition(new Point(x.intValue(), (int) (y.intValue() + dy)));
-					RectMap.put("xAxis", height - dy);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.NW_RESIZE_CURSOR:
-					shape.setPosition(new Point((int) (x.intValue() + dx), (int) (y.intValue() + dy)));
-					RectMap.put("xAxis", height - dy);
-					RectMap.put("yAxis", width - dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.W_RESIZE_CURSOR:
-					shape.setPosition(new Point((int) (x.intValue() + dx), y.intValue()));
-					RectMap.put("yAxis", width - dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.SW_RESIZE_CURSOR:
-					shape.setPosition(new Point((int) (x.intValue() + dx), y.intValue()));
-					RectMap.put("xAxis", dy);
-					RectMap.put("yAxis", width - dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.S_RESIZE_CURSOR:
-					RectMap.put("xAxis", dy);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.SE_RESIZE_CURSOR:
-					RectMap.put("xAxis", dy);
-					RectMap.put("yAxis", dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.E_RESIZE_CURSOR:
-					RectMap.put("yAxis", dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.NE_RESIZE_CURSOR:
-					shape.setPosition(new Point(x.intValue(), (int) (y.intValue() + dy)));
-					RectMap.put("xAxis", height - dy);
-					RectMap.put("yAxis", dx);
-					shape.setProperties(RectMap);
-					break;
-				default:
-					System.out.println("unexpected type: " + type);
+					case Cursor.N_RESIZE_CURSOR:
+						shape.setPosition(new Point(x.intValue(), (int) (y.intValue() + dy)));
+						RectMap.put("xAxis", height - dy);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.NW_RESIZE_CURSOR:
+						shape.setPosition(new Point((int) (x.intValue() + dx), (int) (y.intValue() + dy)));
+						RectMap.put("xAxis", height - dy);
+						RectMap.put("yAxis", width - dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.W_RESIZE_CURSOR:
+						shape.setPosition(new Point((int) (x.intValue() + dx), y.intValue()));
+						RectMap.put("yAxis", width - dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.SW_RESIZE_CURSOR:
+						shape.setPosition(new Point((int) (x.intValue() + dx), y.intValue()));
+						RectMap.put("xAxis", dy);
+						RectMap.put("yAxis", width - dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.S_RESIZE_CURSOR:
+						RectMap.put("xAxis", dy);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.SE_RESIZE_CURSOR:
+						RectMap.put("xAxis", dy);
+						RectMap.put("yAxis", dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.E_RESIZE_CURSOR:
+						RectMap.put("yAxis", dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.NE_RESIZE_CURSOR:
+						shape.setPosition(new Point(x.intValue(), (int) (y.intValue() + dy)));
+						RectMap.put("xAxis", height - dy);
+						RectMap.put("yAxis", dx);
+						shape.setProperties(RectMap);
+						break;
+					default:
+						System.out.println("unexpected type: " + type);
 
 				}
 			} else if (shape instanceof Ellipse) {
@@ -660,49 +660,49 @@ public class MainController {
 				Double dx = p.x - x;
 				Double dy = p.y - y;
 				switch (type) {
-				case Cursor.N_RESIZE_CURSOR:
-					shape.setPosition(new Point(x.intValue(), (int) (y.intValue() + dy)));
-					RectMap.put("yAxis", height - dy);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.NW_RESIZE_CURSOR:
-					shape.setPosition(new Point((int) (x.intValue() + dx), (int) (y.intValue() + dy)));
-					RectMap.put("yAxis", height - dy);
-					RectMap.put("xAxis", width - dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.W_RESIZE_CURSOR:
-					shape.setPosition(new Point((int) (x.intValue() + dx), y.intValue()));
-					RectMap.put("xAxis", width - dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.SW_RESIZE_CURSOR:
-					shape.setPosition(new Point((int) (x.intValue() + dx), y.intValue()));
-					RectMap.put("yAxis", dy);
-					RectMap.put("xAxis", width - dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.S_RESIZE_CURSOR:
-					RectMap.put("yAxis", dy);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.SE_RESIZE_CURSOR:
-					RectMap.put("yAxis", dy);
-					RectMap.put("xAxis", dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.E_RESIZE_CURSOR:
-					RectMap.put("xAxis", dx);
-					shape.setProperties(RectMap);
-					break;
-				case Cursor.NE_RESIZE_CURSOR:
-					shape.setPosition(new Point(x.intValue(), (int) (y.intValue() + dy)));
-					RectMap.put("yAxis", height - dy);
-					RectMap.put("xAxis", dx);
-					shape.setProperties(RectMap);
-					break;
-				default:
-					System.out.println("unexpected type: " + type);
+					case Cursor.N_RESIZE_CURSOR:
+						shape.setPosition(new Point(x.intValue(), (int) (y.intValue() + dy)));
+						RectMap.put("yAxis", height - dy);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.NW_RESIZE_CURSOR:
+						shape.setPosition(new Point((int) (x.intValue() + dx), (int) (y.intValue() + dy)));
+						RectMap.put("yAxis", height - dy);
+						RectMap.put("xAxis", width - dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.W_RESIZE_CURSOR:
+						shape.setPosition(new Point((int) (x.intValue() + dx), y.intValue()));
+						RectMap.put("xAxis", width - dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.SW_RESIZE_CURSOR:
+						shape.setPosition(new Point((int) (x.intValue() + dx), y.intValue()));
+						RectMap.put("yAxis", dy);
+						RectMap.put("xAxis", width - dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.S_RESIZE_CURSOR:
+						RectMap.put("yAxis", dy);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.SE_RESIZE_CURSOR:
+						RectMap.put("yAxis", dy);
+						RectMap.put("xAxis", dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.E_RESIZE_CURSOR:
+						RectMap.put("xAxis", dx);
+						shape.setProperties(RectMap);
+						break;
+					case Cursor.NE_RESIZE_CURSOR:
+						shape.setPosition(new Point(x.intValue(), (int) (y.intValue() + dy)));
+						RectMap.put("yAxis", height - dy);
+						RectMap.put("xAxis", dx);
+						shape.setProperties(RectMap);
+						break;
+					default:
+						System.out.println("unexpected type: " + type);
 
 				}
 			}
@@ -851,7 +851,7 @@ public class MainController {
 				if(path!=null){
 					engine.save(path.toString().concat(".JsOn"));
 				}
-			
+
 			}
 		}
 
@@ -919,11 +919,17 @@ public class MainController {
 			if (actionCommand.equals("Load")) {
 				String jsonText = textComponent.getText();
 
+				engine.loadPreviewJson(jsonText);
+				namesList.updateShapeNameList(engine.getShapes());
+
+				selectedShape = null;
+				surface.repaint();
 
 				//close frame window
 				frame.dispose();
 			} else {
-				//
+				//close frame window
+				frame.dispose();
 			}
 		}
 	}
@@ -933,45 +939,12 @@ public class MainController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Shape[] shapes = engine.getShapes();
-			ObjectMapper mapper = new ObjectMapper();
 
-			ArrayNode rootArray = mapper.createArrayNode();
-			for (Shape shape : shapes) {
-				ObjectNode rootNode = mapper.createObjectNode();
-				double pointX = shape.getPosition().getX();
-				double pointY = shape.getPosition().getY();
-				Double xAxis = shape.getProperties().get("xAxis");
-				Double yAxis = shape.getProperties().get("yAxis");
-				double maxPointX = 0.0;
-				double maxPointY = 0.0;
+			PreviewJson previewJson = new PreviewJson(Arrays.asList(shapes.clone()));
+			String prettyJsonText = previewJson.asPrettyJsonText();
 
-				if (Objects.nonNull(yAxis)) {
-					maxPointX = pointX + yAxis;
-				}
-				if (Objects.nonNull(xAxis)) {
-					maxPointY = pointY + xAxis;
-				}
+			new JsonPreview(prettyJsonText);
 
-				List<DoubleNode> locationPoints = new ArrayList<>(4);
-				locationPoints.add(new DoubleNode(pointX));
-				locationPoints.add(new DoubleNode(pointY));
-				locationPoints.add(new DoubleNode(maxPointX));
-				locationPoints.add(new DoubleNode(maxPointY));
-
-				rootNode.put("socre", 0.9)
-						.put("rate", 0.15)
-						.put("label", shape.getLabel())
-						.putArray("location").addAll(locationPoints);
-
-
-				rootArray.add(rootNode);
-			}
-
-			try {
-				new JsonPreview(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootArray));
-			} catch (JsonProcessingException jsonProcessingException) {
-				jsonProcessingException.printStackTrace();
-			}
 		}
 	}
 
@@ -1467,15 +1440,15 @@ public class MainController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-			    Desktop.getDesktop().browse(new URL("https://goo.gl/v4M4xK").toURI());
+				Desktop.getDesktop().browse(new URL("https://goo.gl/v4M4xK").toURI());
 			} catch (Exception e1) {System.out.println("error");}
 
 		}
 
 	}
-	
+
 	public static void showInfoBox(String infoMessage, String titleBar){
-	GUI.infoBox(infoMessage,titleBar);
+		GUI.infoBox(infoMessage,titleBar);
 	}
 
 }
