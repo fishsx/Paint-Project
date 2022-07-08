@@ -7,6 +7,7 @@
     <groupId>com.songxin.project</groupId>
     <artifactId>paint-project</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -20,4 +21,22 @@
             <version>2.9.8</version>
         </dependency>
     </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>eg.edu.alexu.csd.oop.draw.cs62_67.startProgram</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
